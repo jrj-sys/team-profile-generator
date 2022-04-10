@@ -1,0 +1,26 @@
+{
+  "name": "team-profile-generator",
+  "version": "1.0.0",
+  "description": "Node.js command-line application that takes in information about employees on a team and generates an HTML webpage that displays summaries for each person.",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jrj-sys/team-profile-generator.git"
+  },
+  "author": "Jamel",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jrj-sys/team-profile-generator/issues"
+  },
+  "homepage": "https://github.com/jrj-sys/team-profile-generator#readme",
+  "dependencies": {
+    "inquirer": "^8.2.2",
+    "jest": "^27.5.1"
+  }
+}
