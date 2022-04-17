@@ -5,14 +5,12 @@ const fs = require('fs');
 const Manager = require('./lib/Manager');
 const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
+const generateHTML = require('./src/page-template')
 
 // setting an empty array to push the teamData to so that it's not overwritten
 let teamData = [];
 
-// WHEN I start the application
-// THEN I am prompted to enter the team manager’s name, employee ID, email address, and office number
 const generateManager = () => {
-
 
     return inquirer.prompt([
         {
@@ -70,21 +68,6 @@ const generateManager = () => {
             default: true
         }
     ])
-    .then(managerData => {
-        const { name, id, email, officeNum, confirmEmployees } = managerData;
-        const manager = new Manager (name, id, email, officeNum);
-
-        if (confirmEmployees === true) {
-            teamData.push(manager)
-            addEmployee()
-                .then(employeeData => {
-                    // write to HTML file
-                })
-        } else {
-            teamData.push(manager);
-            return teamData;
-        }
-    })
 }
 
 const addEmployee = () => {
@@ -180,19 +163,51 @@ const addEmployee = () => {
         teamData.push(employee);
 
         if (confAddEmployee) {
-            return addEmployee(teamData);
+            return addEmployee();
         } else {
+            console.log(teamData);
             return teamData;
         }
     })
 }
 
+// function to generate HTML page file using file system 
+const writeFile = fileContent => {
+    fs.writeFile('./dist/index.html', fileContent, err => {
+        // if there is an error 
+        if (err) {
+            console.log(err);
+            return;
+        // when the profile has been created 
+        } else {
+            console.log("Your team profile has been successfully created! Please check out the index.html")
+        }
+    })
+}; 
+
 generateManager()
     // returns HTML with just the manager if the user opts to not include any additional employees (acceptance criteria called for a finish building team BEFORE adding members)
     .then(managerData => {
-        console.log(managerData);
-        // write to HTML file
-    })
+        const { name, id, email, officeNum, confirmEmployees } = managerData;
+        const manager = new Manager (name, id, email, officeNum);
+
+        if (confirmEmployees === true) {
+            teamData.push(manager)
+            return addEmployee()
+                .then(teamData => {
+                return generateHTML(teamData);
+            })
+            .then(pageHTML => {
+                return writeFile(pageHTML);
+            })
+        } else {
+            teamData.push(manager)
+            return generateHTML(teamData)
+                .then(pageHTML => {
+                    return writeFile(pageHTML);
+        })
+    }
+})
 
     
 
