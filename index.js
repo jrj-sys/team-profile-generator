@@ -60,12 +60,6 @@ const generateManager = () => {
                     console.log('Please enter a Manager office number.');
                 }
             }
-        }, 
-        {
-            type: 'confirm',
-            name: 'confirmEmployees',
-            message: 'Would you like to add an Employee to your team?',
-            default: true
         }
     ])
     .then(managerData => {
@@ -146,6 +140,12 @@ const addEmployee = () => {
                     console.log("Please enter the intern's school!")
                 }
             }
+        },
+        {
+            type: 'confirm',
+            name: 'confAddEmployee',
+            message: 'Would you like to add more employees to your Team?',
+            default: false
         }
     ])
     .then(employeeData => {
