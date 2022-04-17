@@ -54,7 +54,7 @@ const generateIntern = intern => {
 }
 
 // push array to page 
-generateHTML = data => {
+const generateHTML = data => {
 
     // array for cards 
     pageArray = []; 
@@ -63,22 +63,18 @@ generateHTML = data => {
         const employee = data[i];
         const title = employee.getRole(); 
 
-
-        // call manager function
         if (title === 'Manager') {
             const managerCard = generateManager(employee);
 
             pageArray.push(managerCard);
         }
 
-        // call engineer function
         if (title === 'Engineer') {
             const engineerCard = generateEngineer(employee);
 
             pageArray.push(engineerCard);
         }
 
-        // call intern function 
         if (title === 'Intern') {
             const internCard = generateIntern(employee);
 

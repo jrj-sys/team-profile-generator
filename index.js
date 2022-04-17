@@ -68,6 +68,12 @@ const generateManager = () => {
             default: true
         }
     ])
+    .then(managerData => {
+        const { name, id, email, officeNum } = managerData;
+        const manager = new Manager (name, id, email, officeNum);
+
+        teamData.push(manager);
+    })
 }
 
 const addEmployee = () => {
@@ -140,12 +146,6 @@ const addEmployee = () => {
                     console.log("Please enter the intern's school!")
                 }
             }
-        },
-        {
-            type: 'confirm',
-            name: 'confAddEmployee',
-            message: 'Would you like to add more employees to your Team?',
-            default: false
         }
     ])
     .then(employeeData => {
@@ -186,28 +186,17 @@ const writeFile = fileContent => {
 }; 
 
 generateManager()
-    // returns HTML with just the manager if the user opts to not include any additional employees (acceptance criteria called for a finish building team BEFORE adding members)
-    .then(managerData => {
-        const { name, id, email, officeNum, confirmEmployees } = managerData;
-        const manager = new Manager (name, id, email, officeNum);
+    .then(addEmployee)
+    .then(teamData => {
+        return generateHTML(teamData);
+    })
+    .then(pageHTML => {
+        return writeFile(pageHTML);
+    })
+    .catch(err => {
+        console.log(err);
+    });
 
-        if (confirmEmployees === true) {
-            teamData.push(manager)
-            return addEmployee()
-                .then(teamData => {
-                return generateHTML(teamData);
-            })
-            .then(pageHTML => {
-                return writeFile(pageHTML);
-            })
-        } else {
-            teamData.push(manager)
-            return generateHTML(teamData)
-                .then(pageHTML => {
-                    return writeFile(pageHTML);
-        })
-    }
-})
 
     
 
