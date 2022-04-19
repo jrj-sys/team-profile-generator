@@ -10,6 +10,7 @@ const generateHTML = require('./src/page-template')
 // setting an empty array to push the teamData to so that it's not overwritten
 let teamData = [];
 
+// inquirer promopts
 const generateManager = () => {
 
     return inquirer.prompt([
